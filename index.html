@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="qrcodejs.min.js" ></script>
+    <title>Lightning</title>
+    <style>
+      html{background:gray;}
+      body{width:100%;height:100%;font-family:monospace;text-align: center;}
+      #qrcode > img{margin:auto;}
+      .title{
+        float:left;
+        font-size:6em;
+        width:200px;
+        text-align: left;
+        position:absolute;
+      }
+      
+      
+    </style>
+  </head>
+  <body>
+    <h1 class="title">FREE <span style="font-size:2em;">QR</span> CODE</h1>
+    <span><italic>QR source text is loaded from your clipboard on load</italic></span>
+    <div id="qrcode"></div>
+    <span><italic>nothing will be saved, everything happens in your browser</italic></span>
+
+<script type="text/javascript">
+
+  navigator.clipboard
+    .readText()
+    .then(createQRCode);
+
+
+  function createQRCode(text) {
+    try{
+
+      var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: text,
+        width: 512,
+        height: 512,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+      return true;
+    }
+    catch(e){
+      alert(e);
+      return false;
+    }
+
+  }
+</script>
+    </script>
+  </body>
+</html>
