@@ -5,42 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <script src="qrcodejs.min.js" ></script>
-    <title>FREE QR generator</title>
+    <title>Lightning</title>
     <style>
       html{background:gray;}
-      body{width:100%;height:100%;font-family:monospace;text-align: center;}
-      #qrcode > img{margin:auto;}
+      body{margin:0;width:100%;height:100%;font-family:monospace;text-align: center;color:white;position:relative;}
+      #qrcode > img{
+        margin:auto;
+        max-width:512px;
+        width:95%;
+        }
       .title{
-        float:left;
+        /* float:left;  */
         font-size:6em;
         width:200px;
         text-align: left;
-        position:absolute;
+         position:absolute;
+         top:0; 
       }
-      
+      .readclipboard{
+        background: inherit;
+        border: 2px solid white;
+        font-size: 0.4em;
+        font-family: monospace;
+        border-bottom: 4px solid white;
+        border-right: 4px solid white;
+        color:white;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      @media only screen and (max-width: 767px) {
+        .title {
+          /* float:none; */
+          position:initial;
+          margin:auto;
+        }
+      }
       
     </style>
   </head>
   <body>
-    <h1 class="title">FREE <span style="font-size:2em;">QR</span> CODE</h1>
-    <span><italic>QR source text is loaded from your clipboard on load</italic></span>
-    <div id="qrcode"></div>
+    <span><italic>QR source text is loaded from your clipboard on load<br/></italic></span>
     <span><italic>nothing will be saved, everything happens in your browser</italic></span>
+    <div id="qrcode"></div>
+    <h1 class="title">FREE <span style="font-size:2em;">QR</span> CODE
+      <button class="readclipboard" derponclick="init()" derppointerdown="init()">Read my clipboard</button>
+    </h1>
 
 <script type="text/javascript">
 
-  navigator.clipboard
-    .readText()
-    .then(createQRCode);
 
+  document.querySelector(".readclipboard")
+    .addEventListener('click',init);
+
+
+function init(){
+    try{
+
+    document.querySelector("#qrcode").innerHTML = "";
+    
+    navigator.clipboard 
+      .readText()
+      .then(createQRCode)
+      .catch(e=>alert(e));
+    }
+    catch(e){alert(e)}
+  }
+  
 
   function createQRCode(text) {
     try{
 
       var qrcode = new QRCode(document.getElementById("qrcode"), {
         text: text,
-        width: 512,
-        height: 512,
+        width: 375,
+        height: 375,
         colorDark : "#000000",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
